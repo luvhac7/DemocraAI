@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stored user preferences and civic scores",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "civicScore": { "type": "number" },
+        "location": { "type": "string" },
+        "age": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Election": {
+      "title": "Election",
+      "description": "Details of a specific election",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "country": { "type": "string" },
+        "type": { "type": "string" },
+        "year": { "type": "number" },
+        "status": { "type": "string", "enum": ["upcoming", "ongoing", "completed"] },
+        "description": { "type": "string" },
+        "timeline": { "type": "array" }
+      }
+    },
+    "Candidate": {
+      "title": "Candidate",
+      "description": "Election candidate info",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "party": { "type": "string" },
+        "image": { "type": "string" },
+        "vision": { "type": "string" },
+        "promises": { "type": "array" }
+      }
+    },
+    "Simulation": {
+      "title": "SimulationResult",
+      "description": "Outcome of an election simulation",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "winner": { "type": "string" },
+        "totalVotes": { "type": "number" },
+        "candidates": { "type": "array" },
+        "electionDetails": {
+          "type": "object",
+          "properties": {
+            "country": { "type": "string" },
+            "date": { "type": "string" },
+            "type": { "type": "string" }
+          }
+        },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "NewsRecord": {
+      "title": "News Verification",
+      "description": "AI analysis of news text",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "label": { "type": "string", "enum": ["Real", "Fake", "Misleading"] },
+        "confidence": { "type": "number" },
+        "reasoning": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Quiz": {
+      "title": "Civic Quiz",
+      "description": "Civic engagement quizzes",
+      "type": "object",
+      "properties": {
+        "question": { "type": "string" },
+        "options": { "type": "array" },
+        "correctIndex": { "type": "number" },
+        "category": { "type": "string" }
+      }
+    },
+    "CivicScoreLog": {
+      "title": "Civic Score Log",
+      "description": "Historical record of civic score changes",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "change": { "type": "number" },
+        "reason": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "LiveNews": {
+      "title": "Live Election News",
+      "description": "Real-time election news updates",
+      "type": "object",
+      "properties": {
+        "headline": { "type": "string" },
+        "source": { "type": "string" },
+        "url": { "type": "string" },
+        "summary": { "type": "string" },
+        "category": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "FairnessReport": {
+      "title": "Fairness Analysis",
+      "description": "AI analysis of election fairness and MCC violations",
+      "type": "object",
+      "properties": {
+        "newsId": { "type": "string" },
+        "status": { "type": "string", "enum": ["Fair", "Warning", "Violation"] },
+        "reason": { "type": "string" },
+        "mccReference": { "type": "string" },
+        "confidence": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ECIGuideline": {
+      "title": "ECI Guideline",
+      "description": "Official rules and MCC guidelines",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["MCC", "Voting", "Election Conduct"] }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile and stats"
+    },
+    "/score_logs": {
+      "schema": "CivicScoreLog",
+      "description": "History of user civic score changes"
+    },
+    "/elections/{electionId}": {
+      "schema": "Election",
+      "description": "Election data"
+    },
+    "/elections/{electionId}/candidates/{candidateId}": {
+      "schema": "Candidate",
+      "description": "Candidates for an election"
+    },
+    "/simulations": {
+      "schema": "Simulation",
+      "description": "Global simulation logs"
+    },
+    "/news_verifications": {
+      "schema": "NewsRecord",
+      "description": "History of news checks"
+    },
+    "/quizzes": {
+      "schema": "Quiz",
+      "description": "Civic educational quizzes"
+    },
+    "/live_news": {
+      "schema": "LiveNews",
+      "description": "Real-time news feed"
+    },
+    "/fairness_reports": {
+      "schema": "FairnessReport",
+      "description": "Election fairness analysis logs"
+    },
+    "/eci_guidelines": {
+      "schema": "ECIGuideline",
+      "description": "Official ECI rules and regulations"
+    }
+  }
+}

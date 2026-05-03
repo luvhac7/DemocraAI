@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isEmailVerified() { return request.auth.token.email_verified == true; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+
+    // User Profiles
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email']) &&
+             data.uid is string && data.uid.size() <= 128 &&
+             data.email is string && data.email.size() <= 255;
+    }
+
+    match /users/{userId} {
+      allow list: if isSignedIn();
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().uid == userId;
+      allow update: if isOwner(userId) && isValidUser(incoming()) && 
+                    incoming().diff(existing()).affectedKeys().hasOnly(['civicScore', 'location', 'age', 'displayName']);
+    }
+
+    // Elections (Public Read)
+    match /elections/{electionId} {
+      allow read: if isSignedIn();
+      // Admin only write? For demo, we'll suggest a logic. Since I don't have a list of admins yet, I'll restrict it.
+    }
+
+    match /elections/{electionId}/candidates/{candidateId} {
+      allow read: if isSignedIn();
+    }
+
+    // Simulations
+    function isValidSimulation(data) {
+      return data.keys().hasAll(['userId', 'winner', 'totalVotes', 'candidates', 'electionDetails', 'timestamp']) &&
+             data.userId == request.auth.uid &&
+             data.winner is string && data.winner.size() <= 200 &&
+             data.electionDetails is map &&
+             data.electionDetails.country is string &&
+             data.electionDetails.type is string;
+    }
+
+    match /simulations/{simId} {
+      allow list, get: if isSignedIn(); // Allow global read for dashboard stats
+      allow create: if isSignedIn() && isValidSimulation(incoming());
+    }
+
+    // News Verifications
+    match /news_verifications/{newsId} {
+      allow list: if isSignedIn();
+      allow get: if isSignedIn();
+      allow create: if isSignedIn();
+    }
+
+    // Quizzes
+    match /quizzes/{quizId} {
+      allow read: if isSignedIn();
+    }
+
+    // Score Logs
+    function isValidScoreLog(data) {
+      return data.keys().hasAll(['userId', 'change', 'reason', 'timestamp']) &&
+             data.userId == request.auth.uid &&
+             data.change is number &&
+             data.reason is string && data.reason.size() <= 200;
+    }
+
+    match /score_logs/{logId} {
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidScoreLog(incoming());
+    }
+
+    // Real-time Election Intelligence
+    function isValidFairnessReport(data) {
+      return data.keys().hasAll(['headline', 'status', 'reason', 'mccReference', 'confidence', 'source', 'timestamp']) &&
+             data.headline is string && data.headline.size() <= 255 &&
+             data.status is string &&
+             data.confidence is number &&
+             data.timestamp is timestamp;
+    }
+
+    function isValidLiveNews(data) {
+      return data.keys().hasAll(['headline', 'source', 'summary', 'category', 'timestamp']) &&
+             data.headline is string && data.headline.size() <= 255 &&
+             data.source is string &&
+             data.timestamp is timestamp;
+    }
+
+    match /live_news/{newsId} {
+      allow list, get: if isSignedIn();
+      allow create: if isSignedIn() && isValidLiveNews(incoming());
+    }
+
+    match /fairness_reports/{reportId} {
+      allow list, get: if isSignedIn();
+      allow create: if isSignedIn() && isValidFairnessReport(incoming());
+    }
+
+    match /eci_guidelines/{guideId} {
+      allow list, get: if isSignedIn();
+      allow create: if isSignedIn();
+    }
+  }
+}
