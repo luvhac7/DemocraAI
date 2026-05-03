@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, XCircle, HelpCircle, Trophy, ArrowRight, RefreshCcw } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button.tsx";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Progress } from "@/components/ui/progress.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
