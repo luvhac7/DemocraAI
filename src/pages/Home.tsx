@@ -263,6 +263,11 @@ export default function Home() {
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
                        <span className="text-6xl font-black italic tracking-tighter">{fairnessScore}%</span>
                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Conduct Integrity</span>
+                       <Link to="/audit" className="mt-2 group/btn">
+                         <span className="text-[8px] font-black uppercase tracking-widest text-primary border border-primary/20 bg-primary/5 px-2 py-0.5 rounded-lg group-hover/btn:bg-primary group-hover/btn:text-white transition-all">
+                           Run AI Audit
+                         </span>
+                       </Link>
                     </div>
                   </div>
                   

@@ -14,7 +14,8 @@ import {
   Trophy,
   ShieldCheck,
   Zap,
-  BookOpen
+  BookOpen,
+  BrainCircuit
 } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ const navItems = [
   { name: "Civic Assistant", href: "/chat", icon: MessageSquare },
   { name: "Election Simulator", href: "/simulator", icon: PlayCircle },
   { name: "Fake News Detector", href: "/detector", icon: ShieldAlert },
+  { name: "Stability Audit", href: "/audit", icon: BrainCircuit },
   { name: "Election Timeline", href: "/timeline", icon: Clock },
   { name: "Voter Assistant", href: "/voter-assistant", icon: Vote },
   { name: "Civic Quiz", href: "/quiz", icon: Trophy },

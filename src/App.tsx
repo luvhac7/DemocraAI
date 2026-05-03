@@ -20,6 +20,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import FairnessDashboard from "@/pages/FairnessDashboard";
 import LiveNewsPage from "@/pages/LiveNewsPage";
 import GuidelinesPage from "@/pages/GuidelinesPage";
+import EvaluationPage from "@/pages/EvaluationPage";
 
 import { AuthProvider } from "@/lib/auth";
 
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/voter-assistant" element={<VoterPage />} />
               <Route path="/quiz" element={<QuizPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/audit" element={<EvaluationPage />} />
             </Routes>
           </Layout>
           <Toaster position="top-right" richColors />

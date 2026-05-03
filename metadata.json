@@ -1,6 +1,6 @@
 {
   "name": "DemocraAI India",
-  "description": "Intelligent Election Navigator for Indian Democracy – features AI Civic Assistant, Lok Sabha Simulator, Fake News Detector, and Voter Guide.",
+  "description": "Intelligent Election Navigator for Indian Democracy – features AI Civic Assistant, Integrity Audits, Lok Sabha Simulator, Fake News Detector, and Voter Guide.",
   "requestFramePermissions": [
     "geolocation"
   ],

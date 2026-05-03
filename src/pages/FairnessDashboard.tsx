@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   ShieldAlert, 
@@ -190,7 +191,7 @@ export default function FairnessDashboard() {
            </Badge>
         </div>
         <CardContent className="p-8 flex flex-col md:flex-row items-center gap-10">
-           <div className="relative h-48 w-48 shrink-0 group">
+           <Link to="/audit" className="relative h-48 w-48 shrink-0 group block cursor-pointer">
               <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-75 animate-pulse" />
               <svg className="h-full w-full relative z-10" viewBox="0 0 100 100">
                 <circle className="text-white/5 stroke-current" strokeWidth="8" fill="transparent" r="42" cx="50" cy="50" />
@@ -211,7 +212,7 @@ export default function FairnessDashboard() {
                  <span className="text-5xl font-black italic tracking-tighter">{((stats.fair / (reports.length || 1)) * 100).toFixed(0)}%</span>
                  <span className="text-[9px] font-black uppercase tracking-widest text-primary">Civic Health</span>
               </div>
-           </div>
+           </Link>
            <div className="flex-1 space-y-6">
               <div className="space-y-2">
                 <h3 className="text-3xl font-black tracking-tighter italic">National Integrity <span className="text-primary">Pulse</span></h3>
@@ -524,9 +525,11 @@ export default function FairnessDashboard() {
                      <span className="text-[8px] font-black uppercase text-green-500">{source.status}</span>
                   </div>
                ))}
-               <Button variant="outline" className="w-full h-10 rounded-xl text-[10px] font-black uppercase tracking-widest border-white/10 hover:bg-white/5">
-                  Audit Protocol
-               </Button>
+               <Link to="/audit" className="block w-full">
+                 <Button variant="outline" className="w-full h-10 rounded-xl text-[10px] font-black uppercase tracking-widest border-white/10 hover:bg-white/5">
+                    Audit Protocol
+                 </Button>
+               </Link>
             </CardContent>
           </Card>
         </div>
